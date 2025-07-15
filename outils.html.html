@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outils - Nova Auto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #90EE90;
+            --dark-bg: #1a1a1a;
+            --text-color: #FFFFFF;
+            --text-muted: #CCCCCC;
+            --card-bg: rgba(20, 20, 20, 0.85);
+            --border-color: #444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: #121212; color: var(--text-color); line-height: 1.6; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+
+        /* --- Header & Footer (Identique) --- */
+        header { background-color: rgba(10, 10, 10, 0.75); padding: 15px 0; position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        header nav { display: flex; justify-content: space-between; align-items: center; }
+        .nav-links { list-style: none; display: flex; }
+        .nav-links li { margin-right: 30px; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9em; padding-bottom: 5px; transition: color 0.3s ease, border-bottom-color 0.3s ease; text-transform: uppercase; }
+        .nav-links a.active, .nav-links a:hover { color: var(--text-color); border-bottom: 2px solid var(--primary-color); }
+        .logo img { height: 48px; transition: transform 0.3s ease; }
+        .logo img:hover { transform: scale(1.1); }
+        footer { background-color: #000000; color: var(--text-muted); padding: 50px 0 20px; margin-top: 60px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .footer-section h4 { color: var(--text-color); margin-bottom: 15px; font-size: 1.1em; text-transform: uppercase; }
+        .footer-section ul { list-style: none; } .footer-section ul li { margin-bottom: 10px; } .footer-section a { color: var(--text-muted); text-decoration: none; font-size: 0.9em; transition: color 0.3s ease; } .footer-section a:hover { color: var(--primary-color); }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid var(--border-color); font-size: 0.85em; color: var(--text-muted); }
+
+        /* --- Style Spécifique à la page Outils --- */
+        .tools-section {
+            padding-top: 120px;
+            padding-bottom: 50px;
+        }
+        .tools-section h1 {
+            text-align: center;
+            font-size: 2.8em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .tools-section .subtitle {
+            text-align: center;
+            font-size: 1.1em;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 60px auto;
+        }
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .tool-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(144, 238, 144, 0.15);
+        }
+        .tool-card-image {
+            height: 180px;
+            background-color: #333;
+        }
+        .tool-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .tool-card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .tool-card-content h3 {
+            font-size: 1.5em;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+        .tool-card-content p {
+            font-size: 0.95em;
+            color: var(--text-muted);
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+        .tool-card-content .btn {
+            display: inline-block;
+            text-align: center;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: #000;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            margin-top: auto;
+        }
+        .tool-card-content .btn:hover {
+            background-color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links a { font-size: 0.8em; }
+            .logo img { height: 35px; }
+            .tools-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <ul class="nav-links">
+                <li><a href="nova_auto_site.html">ACCUEIL</a></li>
+                <li><a href="services.html">SERVICES</a></li>
+                <li><a href="news.html">NEWS</a></li>
+                <li><a href="presentation.html">PRÉSENTATION</a></li>
+                <li><a href="outils.html" class="active">OUTILS</a></li>
+                <li><a href="contact.html">CONTACT</a></li>
+            </ul>
+            <div class="logo">
+                <img src="https://res.cloudinary.com/dzmyybvbu/image/upload/v1751358006/f2a783f1-2881-42ba-8734-fad65f3a62db.png" alt="Osiris Logo"> 
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tools-section container">
+            <h1>Nos Outils</h1>
+            <p class="subtitle">Découvrez notre collection de scripts et d'utilitaires conçus pour vous simplifier la vie. Chaque outil est développé avec soin pour être performant et facile à utiliser.</p>
+
+            <div class="tools-grid">
+
+                <div class="tool-card">
+                    <div class="tool-card-image">
+                        <img src="https://placehold.co/600x400/1a1a1a/90EE90?text=Python" alt="Script d'analyse de données Python">
+                    </div>
+                    <div class="tool-card-content">
+                        <h3>Analyseur de Données</h3>
+                        <p>Un script Python puissant utilisant Pandas et Matplotlib pour analyser des fichiers CSV et générer des visualisations de données en un clin d'œil.</p>
+                        <a href="analyseur-donnees.html" class="btn">Voir le script</a> <!-- MODIFIÉ -->
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-card-image">
+                        <img src="https://placehold.co/600x400/1a1a1a/90EE90?text=JavaScript" alt="Calculateur d'investissement en JavaScript">
+                    </div>
+                    <div class="tool-card-content">
+                        <h3>Calculateur d'Investissement</h3>
+                        <p>Un outil JavaScript interactif pour simuler des plans d'investissement, calculer les intérêts composés et visualiser la croissance de votre capital.</p>
+                        <a href="calculateur-investissement.html" class="btn">Utiliser l'outil</a> <!-- MODIFIÉ -->
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-card-image">
+                        <img src="https://res.cloudinary.com/dzmyybvbu/image/upload/v1752322302/02a9a264-bf04-41c0-b13f-57ecbb721f4d.png">
+                    </div>
+                    <div class="tool-card-content">
+                        <h3>Responsiv'View</h3>
+                        <p>Une application web pour tester vos projets de design, de site en ligne. Plusieurs modèles et formats disponibles.</p>
+                        <a href="ResponsivView.html" class="btn">Lancer l'application</a> <!-- MODIFIÉ -->
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-grid">
+             </div>
+        <div class="footer-bottom"><p>2025 © NOVA AUTO. TOUT DROITS RÉSERVÉS.</p></div>
+    </footer>
+
+
+<script src="https://static.app/js/static.js" type="text/javascript"></script>
+</body>
+</html>

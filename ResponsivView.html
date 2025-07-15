@@ -1,0 +1,960 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsiv'View</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ----- STYLES.CSS INLINE ----- */
+        :root {
+            --bg-gradient: linear-gradient(112deg, #ece9fc 0%, #e4e2ef 40%, #e5e1ef 80%, #e0dbef 100%);
+            --bg-gradient-dark: linear-gradient(112deg, #181a20 0%, #282a36 100%);
+            --card-bg: rgba(245,242,250, 0.98);
+            --card-bg-dark: rgba(24,20,36,0.985);
+            --main-shadow: 0 20px 60px -8px #c996e93e, 0 3px 24px 3px #aabdfa15;
+            --main-shadow-dark: 0 10px 34px 0 rgba(31,21,63,0.32);
+            --border-radius-main: 32px;
+            --border-radius-sm: 19px;
+            --accent: #b365c8;
+            --accent2: #6350ea;
+            --bright: #f9f7fe;
+            --darker-bright: #edeaf6;
+            --text-main: #322b44;
+            --text-secondary: #8773bb;
+            --ui-border: #bcaae8;
+            --viewer-bg: #f6effa;
+            --icon-filter: none;
+            --viewer-shadow: 0 20px 80px 11px #c7bfff25, 0 2px 0 0 var(--accent2) inset;
+            --resize-handle: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 23 23"><g fill="none" stroke="%238685cc" stroke-width="2.6"><path d="M16 21h5v-5"/><path d="M10 23h13v-13"/></g></svg>');
+            --theme-sun-outline: #232137;
+            --inset-focus: 0 0 0 5px #dbcbfd60;
+            --input-highlight: #e2daf9;
+            --input-bar-bg: #f5f1fa;
+            --input-bar-border: #b7addf;
+        }
+        .dark-mode {
+            --bg-gradient: var(--bg-gradient-dark);
+            --card-bg: var(--card-bg-dark);
+            --main-shadow: var(--main-shadow-dark);
+            --accent: #775ed0;
+            --accent2: #c660a9;
+            --bright: #232137;
+            --darker-bright: #2a2442;
+            --text-main: #f0e6fd;
+            --text-secondary: #b8a7e4;
+            --ui-border: #392a5b;
+            --viewer-bg: #232130;
+            --viewer-shadow: 0 9px 44px 0 #352551a6, 0 2px 0 0 var(--accent2) inset;
+            --resize-handle: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 23 23"><g fill="none" stroke="%236b4882" stroke-width="2.6"><path d="M16 21h5v-5"/><path d="M10 23h13v-13"/></g></svg>');
+            --theme-sun-outline: #19191b;
+            --inset-focus: 0 0 0 5px #6b5d9f70;
+            --input-highlight: #2c2547;
+            --input-bar-bg: #201c2c;
+            --input-bar-border: #493749;
+        }
+        body {
+            font-family: 'Inter', 'Montserrat', Arial, sans-serif;
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            transition: background 1.4s cubic-bezier(0.21, 1.00, 0.22, 0.98);
+            letter-spacing: 0.01em;
+            box-sizing: border-box;
+            will-change: background;
+        }
+        .container {
+            max-width: 1420px;
+            margin: 0 auto;
+            padding: 72px 18px 38px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 44px;
+            opacity: 0;
+            animation: containerEnter 1.05s cubic-bezier(0.18, 1, 0.27, 1.08) 0.08s forwards;
+        }
+        @keyframes containerEnter {
+            from { opacity: 0; transform: scale(0.95) translateY(50px);}
+            65% { transform: scale(1.03) translateY(-9px);}
+            to { opacity: 1; transform: none;}
+        }
+        header {
+            text-align: center;
+            margin-bottom: 8px;
+            opacity:0;
+            transform: translateY(26px) scale(0.98);
+            animation: headerAppear 1.1s cubic-bezier(0.12, 0.95, 0.38, 1.04) 0.23s forwards;
+        }
+        @keyframes headerAppear {
+            from {opacity:0; transform: translateY(26px) scale(0.98);}
+            80%{transform: translateY(-3px) scale(1.02);}
+            to { opacity:1; transform: none;}
+        }
+        .logo-title {
+            font-family: 'Montserrat', 'Inter', serif;
+            font-weight: 800;
+            font-size: 2.67rem;
+            letter-spacing: -0.016em;
+            background: linear-gradient(92deg, var(--accent) 15%, var(--accent2) 85%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            margin-bottom: 0.22em;
+            line-height: 1.07;
+            border-radius: 10px;
+            text-shadow: 0 2px 25px #c9a3f320;
+            filter: drop-shadow(0px 3px 12px #dac2ff4c);
+            opacity:0.92;
+        }
+        .header-desc {
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 0.6em;
+            font-size: 1.11rem;
+            letter-spacing: 0.012em;
+            opacity: 0.97;
+            background: rgba(255,255,255,.11);
+            display: inline-block;
+            padding: 0.41em 1.18em;
+            border-radius: 18px;
+            box-shadow: 0 2px 18px -7px #f8eefe13;
+            /* harmonious center */
+            text-align: center;
+        }
+        .controls {
+            background: var(--card-bg);
+            border: 2.4px solid var(--ui-border);
+            border-radius: var(--border-radius-main);
+            box-shadow: var(--main-shadow);
+            padding: 36px 40px 25px 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(238px, 1fr));
+            grid-gap: 22px 28px;
+            align-items: center;
+            width: 100%;
+            max-width: 970px;
+            position: relative;
+            z-index: 51;
+            transition: background 0.43s, border 0.26s, box-shadow 0.3s;
+            opacity: 0;
+            animation: controlsBounceIn 0.93s cubic-bezier(.29,1.05,.52,1.10) 0.45s forwards;
+        }
+        @keyframes controlsBounceIn {
+            from {opacity:0; transform: scale(.92) translateY(48px);}
+            70%  {transform: scale(1.025) translateY(-5px);}
+            to {opacity:1; transform: none;}
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 145px;
+            max-width: 406px;
+            flex: 1 1 210px;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            justify-content: center;
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+        .control-label {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 1.08rem;
+            font-weight: 800;
+            opacity: 0.87;
+            color: var(--text-main);
+            margin-bottom: 0;
+            letter-spacing: 0.005em;
+            text-shadow: 0 2px 10px #e2d9f114;
+        }
+        .input-bar {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            position: relative;
+            border-radius: var(--border-radius-sm);
+            background: var(--input-bar-bg);
+            border: 1.8px solid var(--input-bar-border);
+            box-shadow: 0 1.5px 18px -10px #e7e3ef18;
+            height: 49px;
+            min-height: 43px;
+            width: 100%;
+            transition: box-shadow .21s, border .19s;
+            z-index: 4;
+            margin-top: 0;
+            justify-content: flex-start;
+        }
+        .input-bar input[type="url"] {
+            flex: 1 1 0px;
+            padding: 0 16px;
+            border-radius: var(--border-radius-sm) 0 0 var(--border-radius-sm);
+            border: none;
+            background: transparent;
+            font-size: 1.10rem;
+            font-weight: 500;
+            color: var(--text-main);
+            box-shadow: none;
+            height: 100%;
+            outline: 0;
+            transition: color .18s, background .19s;
+            min-width: 0;
+            z-index: 10;
+            vertical-align: middle;
+            line-height: 1.1;
+            display: flex;
+            align-items: center;
+        }
+        .input-bar input[type="url"]::placeholder {
+            color: #b5a9cd;
+            opacity: .97;
+            font-weight: 400;
+            font-size: 1.1rem;
+        }
+        .input-bar:focus-within, .input-bar.focused {
+            box-shadow: 0 0 0 3.5px var(--input-highlight);
+            border: 2.3px solid var(--accent2);
+            animation: inputFocusGlow 0.43s cubic-bezier(.26,1.22,.54,.99);
+        }
+        @keyframes inputFocusGlow {
+            from{ box-shadow:0 0 0 0 var(--input-highlight);}
+            to{ box-shadow:0 0 0 3.5px var(--input-highlight);}
+        }
+        #loadBtn {
+            border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+            background: linear-gradient(93deg, var(--accent), var(--accent2));
+            box-shadow: 0 2px 18px -9px #ac7ad185;
+            border: none;
+            margin: 0;
+            padding: 0 13px;
+            min-width: 43.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 43px;
+            position: relative;
+            z-index: 5;
+            transition: background 0.22s, box-shadow 0.18s, transform 0.16s;
+        }
+        #loadBtn svg {
+            display: block;
+        }
+        #loadBtn:active { transform: scale(0.969);}
+        #loadBtn:hover:not(:disabled) {
+            background: linear-gradient(93deg, var(--accent2), var(--accent));
+            box-shadow: 0 2.5px 33px -9px #7f44e433;
+        }
+        select {
+            padding: 13px 14px;
+            border-radius: var(--border-radius-sm);
+            border: 1.7px solid var(--ui-border);
+            background: var(--darker-bright);
+            color: var(--accent2);
+            font-size: 1.08rem;
+            font-family: inherit;
+            font-weight: 600;
+            box-shadow: 0 2px 14px -10px #afa9e266;
+            transition: box-shadow .16s, border 0.13s, color .18s;
+            min-width: 145px;
+            min-height: 40px;
+        }
+        select:focus {
+            outline: none;
+            border-color: var(--accent2);
+            box-shadow: 0 0 0 2.2px var(--accent2, #ac7ad1)14;
+            color: var(--accent);
+        }
+        button {
+            background: linear-gradient(93deg, var(--accent), var(--accent2));
+            color: #fff;
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-weight: 800;
+            font-size: 1.08rem;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            padding: 12px 17px;
+            cursor: pointer;
+            box-shadow: 0 3px 23px -8px #e6add922, 0px 1px 2px #e9d8f066;
+            transition: box-shadow 0.17s, transform 0.18s, background 0.16s;
+            letter-spacing: 0.01em;
+            outline: none;
+        }
+        button:active { transform: scale(0.974);}
+        button:hover:not(:disabled) {
+            box-shadow: 0 5px 26px -12px var(--accent2, #ac7ad1), 0 2.5px 0 0 var(--accent) inset;
+            background: linear-gradient(93deg, var(--accent2), var(--accent));
+        }
+        .icon-btn {
+            background: none;
+            box-shadow: none;
+            padding: 0 0 0 3px;
+            margin: 0 0 0 6px;
+            font-size: 1.7em;
+            vertical-align: middle;
+            min-width: 40px;
+            min-height: 40px;
+        }
+        .icon-btn > svg {
+            filter: var(--icon-filter);
+        }
+        #themeIcon .icon-sun > circle,
+        #themeIcon .icon-sun > path {
+            stroke: var(--theme-sun-outline) !important;
+            transition: stroke .23s;
+        }
+        .dark-mode #themeIcon .icon-sun > circle,
+        .dark-mode #themeIcon .icon-sun > path {
+            stroke: #faf8ff !important;
+        }
+        /* -- make sun black in light mode */
+        body:not(.dark-mode) #themeIcon .icon-sun > circle,
+        body:not(.dark-mode) #themeIcon .icon-sun > path {
+            stroke: #131314 !important;
+        }
+        #currentSize {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 1.16rem;
+            background: var(--darker-bright);
+            color: var(--accent2);
+            padding: 9.2px 26px;
+            border-radius: var(--border-radius-sm);
+            border: 1.7px solid var(--ui-border);
+            font-weight: 800;
+            margin-left: 10px;
+            letter-spacing: -0.01em;
+            transition: color 0.19s, background 0.24s, border .15s;
+            box-shadow: 0 4px 19px -8px var(--accent2)33;
+            cursor: pointer;
+            user-select: none;
+            text-align: center;
+            min-width: 108px;
+            position: relative;
+            z-index: 2;
+            outline: none;
+            will-change: background,color;
+        }
+        #currentSize:hover {
+            background: linear-gradient(98deg,#ece6fc 30%,#ece7fb 70%);
+            color: var(--accent);
+            border-color: var(--accent2);
+            transition: background .18s, color .16s, border .16s;
+        }
+        #currentSize:active {
+            background: linear-gradient(98deg,#ece7fd 10%,#e7e2f8 90%);
+            color: var(--accent2);
+        }
+        .viewer-container {
+            margin-top: 18px;
+            margin-bottom: 58px;
+            background: var(--viewer-bg);
+            border-radius: 36px;
+            box-shadow: var(--viewer-shadow);
+            overflow: hidden !important;
+            position: relative;
+            transition:
+                background 0.48s cubic-bezier(.23,1.16,.37,1.04),
+                box-shadow .33s cubic-bezier(.37,.92,.47,1.08),
+                border .18s cubic-bezier(.25,.8,.48,1.2),
+                width 0.28s cubic-bezier(.28,1.1,.74,1) 0s,
+                height 0.29s cubic-bezier(.21,1.08,.57,1.11) 0s;
+            border: 2.4px solid var(--ui-border);
+            min-width: 180px;
+            min-height: 140px;
+            max-width: 97vw;
+            max-height: 84vh;
+            aspect-ratio: auto;
+            resize: both !important;
+            animation: viewerPopIn 0.92s cubic-bezier(.17,.97,.47,1.05) 0.89s backwards;
+        }
+        @keyframes viewerPopIn {
+            from {opacity:0; transform: scale(.92);}
+            70%{transform:scale(1.03);}
+            to{opacity:1; transform: none;}
+        }
+        .no-pointer-handle {
+            resize: none !important;
+        }
+        .viewer-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            border-radius: 30px;
+            transition: box-shadow .24s;
+            box-shadow: 0 8px 25px -8px #dacff44a;
+            display: block;
+            opacity:0;
+            animation: iframeIn 0.7s cubic-bezier(.29,1.16,.36,1.08) 1.18s forwards;
+        }
+        @keyframes iframeIn {
+            from {opacity:0; filter: blur(18px);}
+            85%  {filter: blur(1.8px);}
+            to   {opacity:1; filter:none;}
+        }
+        .viewer-container:after {
+            content: "";
+            display: block;
+            position: absolute;
+            right: 7.5px;
+            bottom: 7.5px;
+            width: 29px;
+            height: 29px;
+            z-index: 3;
+            background: var(--resize-handle) no-repeat right 4px bottom 1px;
+            background-size: 28px 28px;
+            pointer-events: none;
+            opacity: 0.93;
+            filter: blur(0.1px) saturate(1.18);
+            mix-blend-mode: lighten;
+            transition: opacity .22s;
+            animation: resizeHandlePop .59s cubic-bezier(.25,.97,.39,1.09) 1.5s backwards;
+        }
+        @keyframes resizeHandlePop {
+            from{opacity: 0;transform: scale(.96) rotate(-24deg);}
+            60% {opacity:0.7; transform:scale(1.10);}
+            to  {opacity:0.93;transform:none;}
+        }
+        .viewer-container:focus-visible {
+            outline: 3px solid var(--accent2) !important;
+            outline-offset: 4px;
+            box-shadow: var(--inset-focus);
+        }
+        .fade-in {
+            opacity: 1;
+        }
+        @media (max-width: 1060px) {
+            .container { padding: 18px 1vw 32px;}
+            .controls { max-width: 99vw; padding: 12px 3vw 10px 3vw;}
+            .control-group { min-width: 108px;}
+        }
+        @media (max-width: 760px) {
+            .controls {
+                grid-template-columns: 1fr;
+                grid-gap: 13px 0;
+                padding: 3px 2vw 2px;
+            }
+            .control-group { min-width: 92px; max-width: 100%;}
+            .container { gap: 20px;}
+            .viewer-container { max-width: 100vw;}
+        }
+        @media (max-width: 570px) {
+            header { padding-bottom: 0; }
+            .logo-title{ font-size: 1.21rem;}
+            .controls{ padding: 1px 1vw 1px;}
+            .viewer-container{ min-width: 80px; border-radius: 18px;}
+            .container{ padding: 4vw 0 4vw;}
+            .input-bar { height: 38px; } 
+            #loadBtn { height: 38px;}
+            .control-group { min-width: 77px;}
+        }
+    </style>
+</head>
+<body>
+    <div class="container fade-in">
+        <header>
+            <span class="logo-title">Responsiv'View</span><br>
+            <span class="header-desc">
+                Visualisez un site web en mode <b>responsif</b> comme sur un smartphone, une tablette ou un PC !<br>
+                Modifiez la taille à la souris, changez le thème, ou choisissez un appareil dans la liste.
+            </span>
+        </header>
+        <div class="controls">
+            <div class="control-group">
+                <label class="control-label" for="url">Lien du site</label>
+                <div class="input-bar">
+                    <input type="url" id="url" placeholder="https://exemple.com">
+                    <button id="loadBtn" title="Charger cette URL">
+                        <svg width="21" height="21" viewBox="0 0 20 20" fill="none"><path d="M5 9.5a5 5 0 016-4.9V2l6 4.5-6 4.5V8.5a3.5 3.5 0 00-4.2 4.9 3.5 3.5 0 106.2-2.6" stroke-width="1.7" stroke="white" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="presetDimensions">Choisir l'appareil</label>
+                <select id="presetDimensions">
+                    <option value="custom">Personnalisé (redimensionner à la souris)</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Taille actuelle</label>
+                <span id="currentSize">0x0</span>
+            </div>
+            <div class="control-group" style="max-width:170px;">
+                <label class="control-label" style="opacity:.7;">Theme</label>
+                <button id="darkModeBtn" class="icon-btn" aria-label="Activer ou désactiver le mode sombre" title="Changer le mode de thème">
+                    <svg id="themeIcon" width="25" height="25" viewBox="0 0 24 24" fill="none">
+                        <g class="icon-moon">
+                            <path d="M21 12.79A9 9 0 0 1 12.79 3a7.5 7.5 0 1 0 8.21 9.79z" stroke-width="2" stroke="white" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                        <g class="icon-sun">
+                            <circle cx="12" cy="12" r="5" stroke-width="2"/>
+                            <path d="M12 1v2 M12 21v2 M4.22 4.22l1.42 1.42 M18.36 18.36l1.42 1.42 M1 12h2 M21 12h2 M4.22 19.78l1.42-1.42 M18.36 5.64l1.42-1.42"
+                             stroke-width="2" stroke-linecap="round"/>
+                        </g>
+                    </svg>
+                    <span id="themeLabel" style="display:none"></span>
+                </button>
+            </div>
+        </div>
+        <div class="viewer-container" id="viewerContainer" style="width:375px;height:812px;resize:both;">
+            <iframe class="viewer-iframe" id="siteViewer" allow="clipboard-read; clipboard-write"></iframe>
+        </div>
+    </div>
+    <script>
+        // --- devices.js ----
+        const DEVICE_MODELS = [
+            {
+                label: "iPhone",
+                options: [
+                    { name: 'iPhone 15 Pro Max', size: [430,932] },
+                    { name: 'iPhone 15 Pro',     size: [393,852] },
+                    { name: 'iPhone 15',         size: [390,844] },
+                    { name: 'iPhone 14 Pro Max', size: [430,932] },
+                    { name: 'iPhone 14 Pro',     size: [393,852] },
+                    { name: 'iPhone 14',         size: [390,844] },
+                    { name: 'iPhone 13 Pro Max', size: [428,926] },
+                    { name: 'iPhone 13 Pro',     size: [390,844] },
+                    { name: 'iPhone 13',         size: [390,844] },
+                    { name: 'iPhone 12 Pro Max', size: [428,926] },
+                    { name: 'iPhone 12/12 Pro',  size: [390,844] },
+                    { name: 'iPhone 12 mini',    size: [360,780] },
+                    { name: 'iPhone 11 Pro Max', size: [414,896] },
+                    { name: 'iPhone 11',         size: [414,896] },
+                    { name: 'iPhone X/XS',       size: [375,812] },
+                    { name: 'iPhone XR',         size: [414,896] },
+                    { name: 'iPhone SE (2022)',  size: [375,667] }
+                ]
+            },
+            {
+                label: "Samsung Galaxy",
+                options: [
+                    { name: 'Galaxy S24 Ultra',    size: [412,915] },
+                    { name: 'Galaxy S23 Ultra',    size: [412,915] },
+                    { name: 'Galaxy S22 Ultra',    size: [412,915] },
+                    { name: 'Galaxy S22',          size: [412,915] },
+                    { name: 'Galaxy S21',          size: [360,800] },
+                    { name: 'Galaxy S21 Ultra',    size: [384,854] },
+                    { name: 'Galaxy S20',          size: [360,800] },
+                    { name: 'Galaxy S10',          size: [360,760] },
+                    { name: 'Galaxy S9',           size: [360,740] },
+                    { name: 'Galaxy S8',           size: [360,740] },
+                    { name: 'Galaxy Note 20 Ultra',size: [412,915] },
+                    { name: 'Galaxy Note 10',      size: [412,869] },
+                    { name: 'Galaxy Note9',        size: [412,846] },
+                    { name: 'Galaxy A54',          size: [360,800] },
+                    { name: 'Galaxy A53',          size: [360,800] },
+                    { name: 'Galaxy A32',          size: [360,800] },
+                    { name: 'Galaxy Z Fold4',      size: [373,810] },
+                    { name: 'Galaxy Z Flip5',      size: [412,922] }
+                ]
+            },
+            {
+                label: "Google Pixel",
+                options: [
+                    { name: "Pixel 8 Pro",         size: [412,915] },
+                    { name: "Pixel 8",             size: [412,915] },
+                    { name: "Pixel 7a",            size: [412,915] },
+                    { name: "Pixel 7 Pro",         size: [412,915] },
+                    { name: "Pixel 7",             size: [412,915] },
+                    { name: "Pixel 6 Pro",         size: [412,915] },
+                    { name: "Pixel 6",             size: [411,823] },
+                    { name: "Pixel 5",             size: [393,851] },
+                    { name: "Pixel 4 XL",          size: [411,823] },
+                    { name: "Pixel 4",             size: [411,731] }
+                ]
+            },
+            {
+                label: "OnePlus",
+                options: [
+                    { name: "OnePlus 12",              size: [412,892] },
+                    { name: "OnePlus 11",              size: [412,915] },
+                    { name: "OnePlus 10 Pro",          size: [412,892] },
+                    { name: "OnePlus 9 Pro",           size: [412,915] },
+                    { name: "OnePlus 8T",              size: [412,915] },
+                    { name: "OnePlus Nord 2T",         size: [360,800] },
+                    { name: "OnePlus Nord",            size: [360,800] }
+                ]
+            },
+            {
+                label: "Xiaomi",
+                options: [
+                    { name: "Xiaomi 14 Pro",     size: [400,908] },
+                    { name: "Xiaomi 13T Pro",    size: [360,800] },
+                    { name: "Xiaomi 12",         size: [392,873] },
+                    { name: "Xiaomi Mi 11",      size: [360,800] },
+                    { name: "Redmi Note 12",     size: [360,800] },
+                    { name: "Redmi Note 11",     size: [360,800] },
+                    { name: "Poco F5",           size: [393,873] },
+                    { name: "Poco X6 Pro",       size: [393,873] }
+                ]
+            },
+            {
+                label: "Oppo",
+                options: [
+                    { name: "Oppo Find X7",            size: [412,892] },
+                    { name: "Oppo Reno 10 Pro+",       size: [412,892] },
+                    { name: "Oppo Reno8",              size: [360,800] },
+                    { name: "Oppo A98",                size: [360,800] }
+                ]
+            },
+            {
+                label: "Vivo",
+                options: [
+                    { name: "Vivo X100 Pro",     size: [412,915] },
+                    { name: "Vivo V29",          size: [360,800] },
+                    { name: "Vivo Y27",          size: [360,800] }
+                ]
+            },
+            {
+                label: "Motorola",
+                options: [
+                    { name: "Moto G Power 2024", size: [393,873] },
+                    { name: "Moto G82",          size: [393,873] },
+                    { name: "Moto Edge 40",      size: [393,873] },
+                    { name: "Razr 40 Ultra",     size: [413,919] }
+                ]
+            },
+            {
+                label: "Huawei",
+                options: [
+                    { name: "Huawei P60 Pro",         size: [360,800] },
+                    { name: "Huawei Mate 50 Pro",     size: [428,922] },
+                    { name: "Huawei P50",             size: [360,780] },
+                    { name: "Huawei Nova 11",         size: [360,800] }
+                ]
+            },
+            {
+                label: "Sony Xperia",
+                options: [
+                    { name: "Xperia 1 V",     size: [384,854] },
+                    { name: "Xperia 10 V",    size: [360,800] },
+                    { name: "Xperia 5 IV",    size: [360,780] }
+                ]
+            },
+            {
+                label: "Tablette",
+                options: [
+                    { name: 'iPad Pro 12.9"',     size: [1024,1366] },
+                    { name: 'iPad Air/Pro 11"',   size: [834,1194] },
+                    { name: 'iPad 10th Gen',      size: [820,1180] },
+                    { name: 'iPad Mini',          size: [768,1024] },
+                    { name: 'Samsung Tab S9 Ultra',size: [1752,2800] },
+                    { name: 'Samsung Tab S8+',    size: [1752,2800] },
+                    { name: 'Samsung Tab S6',     size: [800,1280] },
+                    { name: 'Xiaomi Pad 6',       size: [1480,2388] }
+                ]
+            },
+            {
+                label: "PC/Laptop",
+                options: [
+                    { name: "PC HD",          size: [1366,768] },
+                    { name: "PC FullHD",      size: [1920,1080] },
+                    { name: "PC QHD",         size: [2560,1440] },
+                    { name: "PC 4K/UHD",      size: [3840,2160] },
+                    { name: "MacBook Air 13' (2022)",   size: [1512,982] },
+                    { name: "MacBook Pro 14' (2021)",   size: [1512,982] },
+                    { name: "Surface Laptop 5 15in",    size: [2496,1664] },
+                    { name: "Dell XPS 13'",             size: [1920,1200] }
+                ]
+            }
+        ];
+        // ---- devices.js helpers
+        const presetSelect = document.getElementById('presetDimensions');
+        const viewerContainer = document.getElementById('viewerContainer');
+        function populateDevicePresets() {
+            presetSelect.innerHTML = '';
+            const customOpt = document.createElement('option');
+            customOpt.value = 'custom';
+            customOpt.textContent = "Personnalisé (redimensionner à la souris)";
+            presetSelect.appendChild(customOpt);
+
+            for (const group of DEVICE_MODELS) {
+                const optGroup = document.createElement('optgroup');
+                optGroup.label = group.label;
+                for (const dev of group.options) {
+                    const opt = document.createElement('option');
+                    opt.value = `${dev.size[0]},${dev.size[1]}`;
+                    opt.textContent = `${dev.name} (${dev.size[0]}x${dev.size[1]})`;
+                    optGroup.appendChild(opt);
+                }
+                presetSelect.appendChild(optGroup);
+            }
+        }
+        // Function to check if [w,h] matches a preset option
+        function isPresetSize(width, height) {
+            for (const o of presetSelect.querySelectorAll('option')) {
+                if (!o.value.match(/^\d+,\d+$/)) continue;
+                const [pw, ph] = o.value.split(',').map(Number);
+                if (pw === width && ph === height) return true;
+            }
+            return false;
+        }
+        function enableCustomResize() {
+            viewerContainer.style.resize = 'both';
+            viewerContainer.classList.remove('no-pointer-handle');
+            viewerContainer.style.cursor = 'nwse-resize';
+            viewerContainer.style.overflow = 'hidden';
+        }
+        function disableCustomResize() {
+            viewerContainer.style.resize = 'none';
+            viewerContainer.classList.add('no-pointer-handle');
+            viewerContainer.style.cursor = 'default';
+            viewerContainer.style.overflow = 'hidden';
+        }
+        function setupDevicePreset() {
+            presetSelect.addEventListener('change', (e) => {
+                if (e.target.value === 'custom') {
+                    enableCustomResize();
+                    return;
+                }
+                const [width, height] = e.target.value.split(',').map(Number);
+                viewerContainer.style.transition = "width .44s cubic-bezier(.19,1.09,.64,1.01), height .31s cubic-bezier(.22,1.25,.64,1.01), box-shadow .31s";
+                viewerContainer.style.width = `${width}px`;
+                viewerContainer.style.height = `${height}px`;
+                setTimeout(()=>{viewerContainer.style.transition = "";}, 470);
+                disableCustomResize();
+            });
+
+            // Initial state
+            if (presetSelect.value === 'custom') enableCustomResize();
+            else disableCustomResize();
+
+            // If manually resized, set as custom
+            const resizeObserver = new ResizeObserver(() => {
+                if (
+                    presetSelect.value !== 'custom' &&
+                    !isPresetSize(viewerContainer.offsetWidth, viewerContainer.offsetHeight)
+                ) {
+                    presetSelect.value = 'custom';
+                    enableCustomResize();
+                }
+            });
+            resizeObserver.observe(viewerContainer);
+        }
+        // --- theme.js
+        const darkModeBtn = document.getElementById('darkModeBtn');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeLabel = document.getElementById('themeLabel');
+        const viewer = document.getElementById('siteViewer');
+        let isDarkMode = true;
+
+        function setThemeIcon(isDark) {
+            themeIcon.querySelector('.icon-moon').style.display = isDark ? '' : 'none';
+            themeIcon.querySelector('.icon-sun').style.display = isDark ? 'none' : '';
+        }
+        function applyBodyGradient() {
+            if (isDarkMode) {
+                document.body.style.background = "linear-gradient(112deg, #16141e 0%, #23243c 100%)";
+            } else {
+                document.body.style.background = "linear-gradient(112deg,#ece9fc 0%, #e4e2ef 40%, #e5e1ef 80%, #e0dbef 100%)";
+            }
+        }
+        function setDarkMode(mode) {
+            isDarkMode = mode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            setThemeIcon(isDarkMode);
+            themeLabel.textContent = isDarkMode ? 'Mode clair' : 'Mode sombre';
+            darkModeBtn.setAttribute("aria-pressed", isDarkMode);
+
+            // Try to tell iframe (if compatible)
+            try {
+                if (viewer.contentWindow) {
+                    const message = {
+                        type: 'TOGGLE_COLOR_SCHEME',
+                        mode: isDarkMode ? 'dark' : 'light'
+                    };
+                    viewer.contentWindow.postMessage(JSON.stringify(message), '*');
+                }
+            }catch(e){}
+            applyBodyGradient();
+        }
+        function setupThemeSwitcher() {
+            setThemeIcon(isDarkMode);
+            setDarkMode(isDarkMode);
+            darkModeBtn.addEventListener('click', () => {
+                setDarkMode(!isDarkMode);
+            });
+        }
+        // --- urlLoader.js ---
+        const urlInput = document.getElementById('url');
+        const loadBtn = document.getElementById('loadBtn');
+        const inputBar = urlInput.closest(".input-bar");
+
+        function loadSite() {
+            let url = urlInput.value.trim();
+            if (!url) return;
+            if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+            viewer.src = url;
+            viewer.classList.remove("iframe-starting");
+            setTimeout(()=>viewer.classList.add("iframe-starting"), 90);
+        }
+
+        function animateInputBarFocus(ev) {
+            inputBar.classList.add('focused');
+        }
+        function animateInputBarBlur(ev) {
+            inputBar.classList.remove('focused');
+        }
+
+        function setupUrlLoader() {
+            loadBtn.addEventListener('click', loadSite);
+            urlInput.addEventListener('keyup', e => {
+                if (e.key === 'Enter') loadSite();
+            });
+
+            urlInput.addEventListener('focus', animateInputBarFocus);
+            urlInput.addEventListener('blur', animateInputBarBlur);
+
+            // UX fix: clear input focus if button pressed
+            loadBtn.addEventListener('mousedown', () => urlInput.blur());
+
+            // Mobile UX: auto-select url for quick paste
+            urlInput.addEventListener('focus', e=>{
+                if (window.innerWidth < 580)
+                    urlInput.select();
+            });
+        }
+        // --- resize.js ---
+        const currentSizeDisplay = document.getElementById('currentSize');
+
+        function updateSizeDisplay() {
+            const width = Math.round(viewerContainer.offsetWidth);
+            const height = Math.round(viewerContainer.offsetHeight);
+            currentSizeDisplay.textContent = `${width} x ${height}`;
+        }
+        function setupResizeControls() {
+            setTimeout(() => document.querySelector('.container').style.opacity = "1", 50);
+            updateSizeDisplay();
+
+            // Watch size and custom/preset mode
+            const resizeObserver = new ResizeObserver(() => {
+                updateSizeDisplay();
+                // If user resizes manually, switch to custom
+                if (
+                    presetSelect.value !== 'custom'
+                ) {
+                    presetSelect.value = 'custom';
+                }
+            });
+            resizeObserver.observe(viewerContainer);
+
+            // Double click to reset demo size
+            currentSizeDisplay.style.cursor = "pointer";
+            currentSizeDisplay.title = "Double-cliquez pour ajuster à 375x812";
+            currentSizeDisplay.addEventListener("dblclick", () => {
+                viewerContainer.style.transition = "width .52s cubic-bezier(.21,1.13,.58,1.01),height .38s cubic-bezier(.19,1.22,.51,1.01)";
+                viewerContainer.style.width = "375px";
+                viewerContainer.style.height = "812px";
+                setTimeout(()=>viewerContainer.style.transition = "", 560);
+                presetSelect.value = "custom";
+                updateSizeDisplay();
+                currentSizeDisplay.animate([{transform:"scale(1.08)"},{transform:"scale(1)"}],{duration:400,easing:"cubic-bezier(.19,1.15,.41,0.97)"});
+            });
+
+            // Pointer cues for mouse
+            viewerContainer.addEventListener('mouseover', () => {
+                if (presetSelect.value === 'custom') {
+                    viewerContainer.style.cursor = 'nwse-resize';
+                } else {
+                    viewerContainer.style.cursor = 'default';
+                }
+            });
+            viewerContainer.addEventListener('mouseleave', () => {
+                if (presetSelect.value === 'custom') {
+                    viewerContainer.style.cursor = 'nwse-resize';
+                } else {
+                    viewerContainer.style.cursor = '';
+                }
+            });
+
+            // Keyboard control (custom size)
+            viewerContainer.tabIndex = 0;
+            viewerContainer.addEventListener("keydown", e => {
+                if (presetSelect.value !== 'custom') return;
+                let handled = false;
+                let w = viewerContainer.offsetWidth;
+                let h = viewerContainer.offsetHeight;
+                if (e.key === "ArrowRight") { viewerContainer.style.width = (w+10)+"px"; handled = true;}
+                if (e.key === "ArrowLeft" ) { viewerContainer.style.width = (w-10)+"px"; handled = true;}
+                if (e.key === "ArrowDown")  { viewerContainer.style.height = (h+10)+"px"; handled = true;}
+                if (e.key === "ArrowUp")    { viewerContainer.style.height = (h-10)+"px"; handled = true;}
+                if (handled) {
+                    e.preventDefault();
+                    updateSizeDisplay();
+                    currentSizeDisplay.animate([{transform:"scale(1.09)"},{transform:"scale(1)"}],{duration:155});
+                }
+            });
+            // Mouse resizing for handle
+            (function enableManualMouseResize() {
+                let dragging = false;
+                let startX, startY, startW, startH;
+                let lastMoveTime = 0;
+                function isOnResizeHandle(e) {
+                    const rect = viewerContainer.getBoundingClientRect();
+                    return (
+                        e.clientX >= rect.right - 32 &&
+                        e.clientY >= rect.bottom - 32
+                    );
+                }
+                viewerContainer.addEventListener('mousedown', function(e) {
+                    if (presetSelect.value !== 'custom' || !isOnResizeHandle(e)) return;
+                    dragging = true;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    startW = viewerContainer.offsetWidth;
+                    startH = viewerContainer.offsetHeight;
+                    document.body.style.userSelect = 'none';
+                    viewerContainer.style.transition = 'none';
+                    viewerContainer.classList.add('dragging-anim');
+                    e.preventDefault();
+                });
+                window.addEventListener('mousemove', function(e) {
+                    if (!dragging) return;
+                    const now = performance.now();
+                    if (now - lastMoveTime < 6) return;
+                    lastMoveTime = now;
+                    let deltaX = e.clientX - startX;
+                    let deltaY = e.clientY - startY;
+                    let newW = Math.max(130, startW + deltaX);
+                    let newH = Math.max(110, startH + deltaY);
+                    viewerContainer.style.width = `${newW}px`;
+                    viewerContainer.style.height = `${newH}px`;
+                    updateSizeDisplay();
+                });
+                window.addEventListener('mouseup', function() {
+                    if (dragging) {
+                        dragging = false;
+                        document.body.style.userSelect = '';
+                        viewerContainer.style.transition = '';
+                        setTimeout(()=>viewerContainer.classList.remove('dragging-anim'),100);
+                    }
+                });
+                // Show handle cursor at bottom right
+                viewerContainer.addEventListener('mousemove', function(e) {
+                    if (presetSelect.value !== 'custom') {
+                        viewerContainer.style.cursor = 'default';
+                        return;
+                    }
+                    if (isOnResizeHandle(e)) {
+                        viewerContainer.style.cursor = 'nwse-resize';
+                    } else {
+                        viewerContainer.style.cursor = 'default';
+                    }
+                });
+            })();
+            viewerContainer.style.zIndex = 31;
+        }
+        // --- Whole-page app startup ---
+        populateDevicePresets();
+        setupThemeSwitcher();
+        setupDevicePreset();
+        setupUrlLoader();
+        setupResizeControls();
+    </script>
+
+<script src="https://static.app/js/static.js" type="text/javascript"></script>
+</body>
+</html>

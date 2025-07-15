@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chargement - Nova Auto</title>
+    <link href="https://fonts.cdnfonts.com/css/naston" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://res.cloudinary.com/dzmyybvbu/image/upload/v1751735063/360_F_650549520_9a0dbWZAqWx9k4hLhp8gLIQEI2nVtFBY_qhpjsd.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Astro', sans-serif;
+            overflow: hidden; /* Empêche les barres de défilement pendant l'animation */
+        }
+
+        .loading-container {
+            display: flex;
+            align-items: center; /* Align items vertically */
+            justify-content: center; /* Center horizontally */
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) translateX(100px); /* Ajustez cette valeur si nécessaire */
+            width: fit-content;
+            padding: 20px;
+        }
+
+        .text-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 30px;
+        }
+
+        .site-name {
+            font-size: 4rem;
+            color: #000000;
+            animation: fadeIn 2s ease-in-out;
+            white-space: nowrap;
+        }
+
+        .please-wait-text {
+            font-size: 1.5rem;
+            color: #000000;
+            margin-top: 3px;
+            animation: fadeIn 2s ease-in-out;
+            white-space: nowrap;
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .porsche-wheel {
+            width: 100%;
+            height: 100%;
+            /* NOUVEAU LIEN DIRECT CLOUDINARY POUR LA ROUE */
+            /* C'est un exemple de roue transparente. Si vous avez une GT3 RS spécifique,
+               téléchargez-la sur votre Cloudinary et utilisez ce lien ici. */
+            src: url('https://res.cloudinary.com/dzmyybvbu/image/upload/v1751879404/Screenshot_20250705_233514_Gallery_1_zv6slt.png'); /* Exemple de roue transparente Cloudinary */
+            object-fit: contain;
+            animation: spin 3s linear forwards;
+            position: relative;
+            z-index: 1;
+            border: none;
+            font-size: 0;
+        }
+
+        .drift-smoke {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            width: 150px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0;
+            animation: growSmoke 3s linear forwards;
+            z-index: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(1080deg);
+            }
+        }
+
+        @keyframes growSmoke {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) scale(0);
+                width: 100px;
+                height: 30px;
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateX(-50%) scale(1);
+                width: 250px;
+                height: 80px;
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1.5);
+                width: 400px;
+                height: 120px;
+            }
+        }
+
+        @keyframes driftLeft {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-200px);
+            }
+        }
+
+        @keyframes accelerateRight {
+            0% {
+                transform: translateX(-200px);
+            }
+            100% {
+                transform: translateX(calc(100vw + 200px));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container">
+        <div class="wheel-container">
+            <img class="porsche-wheel" src="https://res.cloudinary.com/dzmyybvbu/image/upload/v1751879404/Screenshot_20250705_233514_Gallery_1_zv6slt.png" alt="Porsche Wheel">
+            <div class="drift-smoke"></div>
+        </div>
+        <div class="text-container">
+            <div class="site-name">NOVA AUTO</div>
+            <div class="please-wait-text">Merci de patienter</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const wheelContainer = document.querySelector('.wheel-container');
+            const porscheWheel = document.querySelector('.porsche-wheel');
+            const driftSmoke = document.querySelector('.drift-smoke');
+
+            porscheWheel.style.animation = 'spin 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+            wheelContainer.style.animation = 'driftLeft 3s ease-out forwards';
+            driftSmoke.style.animation = 'growSmoke 3s linear forwards';
+
+            setTimeout(() => {
+                porscheWheel.style.animation = 'spin 0.5s linear infinite';
+                wheelContainer.style.animation = 'accelerateRight 0.5s ease-in forwards';
+                driftSmoke.style.opacity = '0';
+
+                setTimeout(() => {
+                    window.location.href = "https://nova-auto.static.domains/nova_auto_site.html";
+                }, 500);
+            }, 3000);
+        });
+    </script>
+
+<script src="https://static.app/js/static.js" type="text/javascript"></script>
+</body>
+</html>

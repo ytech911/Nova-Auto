@@ -1,0 +1,368 @@
+<html lang="fr"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Présentation - Osiris Concessionnaire</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #90EE90;
+            --dark-bg: #1a1a1a;
+            --text-color: #FFFFFF;
+            --text-muted: #CCCCCC;
+            --card-bg: rgba(20, 20, 20, 0.85);
+            --border-color: #444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background-color: #121212; color: var(--text-color); line-height: 1.6; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+
+        header { background-color: rgba(10, 10, 10, 0.75); padding: 15px 0; position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        header nav { display: flex; justify-content: space-between; align-items: center; }
+        .nav-links { list-style: none; display: flex; }
+        .nav-links li { margin-right: 30px; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9em; padding-bottom: 5px; transition: color 0.3s ease, border-bottom-color 0.3s ease; text-transform: uppercase; }
+        .nav-links a.active, .nav-links a:hover { color: var(--text-color); border-bottom: 2px solid var(--primary-color); }
+        
+        .logo img { 
+            height: 48px; 
+            transition: transform 0.3s ease; 
+        }
+        .logo img:hover { transform: scale(1.1); }
+
+        /* Styles spécifiques à la page de présentation */
+        .presentation-content {
+            padding-top: 100px; /* Espace pour le header fixe */
+            padding-bottom: 50px;
+            text-align: center;
+        }
+
+        .presentation-content h1 {
+            font-size: 2.8em;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .presentation-content p {
+            font-size: 1.1em;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            line-height: 1.8;
+        }
+
+        .video-container {
+            width: 90%;
+            max-width: 900px;
+            margin: 0 auto 50px auto;
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            overflow: hidden; /* Important for carousel sliding effect */
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        }
+
+        #dynamic-media-content {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            overflow: hidden; 
+        }
+
+        .carousel-track {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%; 
+            height: 100%;
+            display: flex;
+        }
+
+        .carousel-track img {
+            width: 50%; 
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0; 
+        }
+        
+        #final-video-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none; /* Caché par défaut */
+        }
+
+        .countdown-container {
+            margin: 40px auto;
+            padding: 30px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            max-width: 700px;
+            border: 1px solid var(--border-color);
+        }
+
+        .countdown-container h2 {
+            font-size: 2.2em;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #countdown {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1.8em;
+            color: var(--text-color);
+            background-color: rgba(0,0,0,0.4);
+            padding: 15px 25px;
+            border-radius: 6px;
+            min-width: 120px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .countdown-item span {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .countdown-item div {
+            font-size: 0.7em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        footer { background-color: #000000; color: var(--text-muted); padding: 50px 0 20px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .footer-section h4 { color: var(--text-color); margin-bottom: 15px; font-size: 1.1em; text-transform: uppercase; }
+        .footer-section ul { list-style: none; } .footer-section ul li { margin-bottom: 10px; } .footer-section a { color: var(--text-muted); text-decoration: none; font-size: 0.9em; transition: color 0.3s ease; } .footer-section a:hover { color: var(--primary-color); }
+        .footer-logo-area .logo-footer { display: flex; align-items: center; margin-bottom: 15px; } 
+        .footer-logo-area .logo-footer img { 
+            height: 100px; 
+            margin-right: 10px; 
+            transition: opacity 0.3s ease;
+        } 
+        .footer-logo-area .logo-footer img:hover { opacity: 0.8; }
+        .footer-logo-area .logo-footer span { font-size: 1.3em; font-weight: 700; color: var(--text-color); } .footer-logo-area p { font-size: 0.9em; line-height: 1.5; max-width: 250px; } .footer-section p { font-size: 0.9em; margin-bottom: 8px; }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid var(--border-color); font-size: 0.85em; color: var(--text-muted); }
+        .scroll-to-top { position: fixed; bottom: 25px; right: 25px; background-color: var(--primary-color); color: #000; width: 40px; height: 40px; border-radius: 3px; text-align: center; line-height: 40px; font-size: 1.1em; text-decoration: none; transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; opacity: 0; visibility: hidden; z-index: 900; }
+        .scroll-to-top.visible { opacity: 1; visibility: visible; }
+        .scroll-to-top:hover { transform: scale(1.1) translateY(-2px); }
+        .scroll-to-top i { position: relative; top: 12px; }
+
+        @media (max-width: 768px) { 
+            .presentation-content { padding-top: 80px; }
+            .presentation-content h1 { font-size: 2em; }
+            .presentation-content p { font-size: 1em; }
+            .video-container { width: 95%; }
+            header nav { flex-direction: row; } .nav-links li { margin-right: 15px; } .nav-links a { font-size: 0.8em;} 
+            .logo img { height: 35px; } 
+            .footer-grid { grid-template-columns: 1fr; text-align: center; } .footer-logo-area p { margin: 0 auto 15px auto; } .footer-logo-area .logo-footer { justify-content: center; } 
+            .footer-logo-area .logo-footer img { height: 40px; } 
+            .countdown-item { font-size: 1.2em; padding: 10px 15px; min-width: 80px; }
+            .countdown-item span { font-size: 2em; }
+            .countdown-container h2 { font-size: 1.8em; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <ul class="nav-links">
+                <li><a href="nova_auto_site.html">ACCUEIL</a></li>
+                <li><a href="services.html">SERVICES</a></li>
+                <li><a href="news.html">NEWS</a></li>
+                <li><a href="presentation.html" class="active">PRÉSENTATION</a></li>
+                <li><a href="contact.html">CONTACT</a></li>
+            </ul>
+            <div class="logo">
+                <img src="https://res.cloudinary.com/dzmyybvbu/image/upload/v1751358006/f2a783f1-2881-42ba-8734-fad65f3a62db.png" alt="Osiris Logo"> 
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="presentation-content container">
+            <h1>Découvrez Nova Auto</h1>
+            <p>
+                Chez Nova Auto, nous nous engageons à redéfinir votre expérience automobile en vous offrant un choix étendu de véhicules, adaptés à chaque style de vie et chaque besoin. Qu'il s'agisse de la souplesse d'une citadine pour vos trajets quotidiens, de la puissance d'une voiture de sport pour des sensations fortes, du prestige d'un véhicule de luxe pour les occasions spéciales, ou de la robustesse d'un utilitaire pour vos activités professionnelles, notre gamme complète saura répondre à vos attentes.
+            </p>
+            <p>
+                Notre passion pour l'automobile nous pousse à sélectionner méticuleusement chaque modèle de notre collection. Nous nous efforçons d'offrir des véhicules alliant performance, fiabilité et design, quel que soit leur segment. Nous nous engageons à fournir un service irréprochable, personnalisé et adapté à vos besoins spécifiques, ainsi qu'à votre budget, garantissant une expérience fluide et satisfaisante, de la sélection à l'acquisition ou la location de votre véhicule.
+            </p>
+            
+            <div class="video-container">
+                <div id="dynamic-media-content">
+                    <div class="carousel-track" id="carousel-track">
+                        <img class="carousel-image" src="" alt="Nova Auto Image 1">
+                        <img class="carousel-image" src="" alt="Nova Auto Image 2">
+                    </div>
+                    <iframe id="final-video-iframe" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" title="Publicité Nova Auto"></iframe>
+                </div>
+            </div>
+            
+            <div class="countdown-container" id="countdown-wrapper">
+                <h2>Prochain grand événement dans :</h2>
+                <div id="countdown">
+                    <div class="countdown-item">
+                        <span id="days">--</span>
+                        <div>Jours</div>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="hours">--</span>
+                        <div>Heures</div>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="minutes">--</span>
+                        <div>Minutes</div>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="seconds">--</span>
+                        <div>Secondes</div>
+                    </div>
+                </div>
+            </div>
+            
+            <p>
+                Venez nous rendre visite en concession pour découvrir notre gamme de véhicules, nos offres de services, nos futures opérations promotionnels et nos futur évenements exclusifs. 
+                Bienvenue dans l'univers de Nova Auto, où chaque trajet devient une aventure.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-grid">
+            <div class="footer-section footer-logo-area">
+                <div class="logo-footer">
+                    <img src="https://res.cloudinary.com/dzmyybvbu/image/upload/v1751358006/f2a783f1-2881-42ba-8734-fad65f3a62db.png" alt="Osiris Logo Footer"> 
+                </div>
+                <p>L'expérience de rouler avec NOVA AUTO CONCESSIONNAIRE</p>
+            </div>
+            <div class="footer-section"><h4>LINKS</h4><ul><li><a href="supercars.html">SUPER CAR RENTALS</a></li><li><a href="nova_auto_site.html">ACCUEIL</a></li><li><a href="services.html">SERVICES</a></li><li><a href="news.html">NEWS</a></li><li><a href="presentation.html">PRÉSENTATION</a></li><li><a href="contact.html">CONTACT</a></li></ul></div>
+            <div class="footer-section"><h4>SERVICES</h4><ul><li><a href="services.html#car-rentals">CAR RENTALS</a></li><li><a href="services.html#memberships">MEMBERSHIPS</a></li><li><a href="reservation.html">BOOK TODAY</a></li><li><a href="contact.html#form">CONTACT NOW</a></li></ul></div>
+            <div class="footer-section"><h4>CONTACT</h4><p><a href="mailto:INFO@NOVA_AUTO.COM">INFO@NOVA_AUTO.COM</a></p></div>
+        </div>
+        <div class="footer-bottom"><p>2025 © NOVA AUTO. TOUT DROITS RÉSERVÉS.</p></div>
+    </footer>
+
+    <a href="#" class="scroll-to-top"><i class="fas fa-arrow-up"></i></a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const scrollToTopButton = document.querySelector('.scroll-to-top');
+            window.addEventListener('scroll', () => { scrollToTopButton.classList.toggle('visible', window.pageYOffset > 200); });
+            scrollToTopButton.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+            
+            // --- Countdown Timer & Media Logic ---
+            const countdownWrapper = document.getElementById('countdown-wrapper');
+            const carouselTrack = document.getElementById('carousel-track');
+            const carouselImages = carouselTrack.querySelectorAll('.carousel-image'); 
+            const finalVideoIframe = document.getElementById('final-video-iframe');
+
+            // --- CONFIGURATION ---
+            // Date cible : 12 Juillet 2025 à 16:00:00
+            const countdownDate = new Date("Jul 12, 2025 16:00:00").getTime();
+            
+            // ✅ CORRECTION : Lien de la vidéo à afficher après le compte à rebours
+            const videoUrl = "https://drive.google.com/file/d/14v7eN3Z_S5VHYbizIY7i51b1AaMfTeXn/preview"; 
+
+            const imageUrls = [
+                "https://res.cloudinary.com/dzmyybvbu/image/upload/v1752232124/Gemini_Generated_Image_eulvxveulvxveulv_sheicv.png",
+                "https://res.cloudinary.com/dzmyybvbu/image/upload/v1752229460/Gemini_Generated_Image_5d8jue5d8jue5d8j_lybnue.png",
+                "https://res.cloudinary.com/dzmyybvbu/image/upload/v1752233659/Gemini_Generated_Image_rr5676rr5676rr56_rghyma.png"
+            ];
+            // --- FIN CONFIGURATION ---
+
+            let currentImageIndex = 0;
+            let carouselInterval;
+            const slideDuration = 5000; // 5 secondes
+            const transitionDuration = 800; // 0.8 secondes
+
+            // Définit les images initiales
+            carouselImages[0].src = imageUrls[currentImageIndex];
+            carouselImages[1].src = imageUrls[(currentImageIndex + 1) % imageUrls.length];
+
+            function slideCarousel() {
+                currentImageIndex = (currentImageIndex + 1) % imageUrls.length;
+                carouselImages[1].src = imageUrls[currentImageIndex]; // L'image qui va arriver
+                carouselTrack.style.transition = `transform ${transitionDuration / 1000}s ease-in-out`;
+                carouselTrack.style.transform = 'translateX(-50%)';
+            }
+
+            carouselTrack.addEventListener('transitionend', () => {
+                // Réinitialisation après la transition
+                carouselTrack.style.transition = 'none';
+                carouselTrack.style.transform = 'translateX(0%)';
+                carouselImages[0].src = carouselImages[1].src;
+                carouselImages[1].src = imageUrls[(currentImageIndex + 1) % imageUrls.length];
+            });
+
+            function startCarousel() {
+                if (carouselTrack) {
+                    carouselTrack.style.display = 'flex';
+                    finalVideoIframe.style.display = 'none';
+                    setTimeout(() => { // Démarre le carrousel
+                        slideCarousel();
+                        carouselInterval = setInterval(slideCarousel, slideDuration);
+                    }, 100);
+                }
+            }
+
+            function showVideo() {
+                clearInterval(carouselInterval); 
+                if (countdownWrapper) countdownWrapper.style.display = 'none'; 
+                if (carouselTrack) carouselTrack.style.display = 'none'; 
+                
+                if (finalVideoIframe) {
+                    finalVideoIframe.src = videoUrl; // ✅ Assigne la bonne URL
+                    finalVideoIframe.style.display = 'block'; 
+                }
+            }
+            
+            // Logique du compte à rebours
+            const countdownInterval = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = countdownDate - now;
+
+                if (distance < 0) {
+                    clearInterval(countdownInterval); 
+                    showVideo(); 
+                } else {
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    if (document.getElementById("days")) document.getElementById("days").innerHTML = String(days).padStart(2, '0');
+                    if (document.getElementById("hours")) document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
+                    if (document.getElementById("minutes")) document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
+                    if (document.getElementById("seconds")) document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
+                }
+            }, 1000);
+
+            // Vérifie au chargement si le compte à rebours est déjà terminé
+             if (new Date().getTime() >= countdownDate) {
+                showVideo();
+            } else {
+                startCarousel();
+            }
+        });
+    </script>
+
+<script src="https://static.app/js/static.js" type="text/javascript"></script>
+</body>
+</html>
